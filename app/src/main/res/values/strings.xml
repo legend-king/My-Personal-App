@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MyPersonalApp</string>
+    <string name="login">Login</string>
+    <string name="userName">User Name</string>
+    <string name="password">Password</string>
+    <string name="logout">Logout</string>
+    <string name="delete">Delete Account</string>
+    <string name="register">Register</string>
+    <string name="forgotPassword">Forgot Password</string>
+    <string name="changepassword">Change Password</string>
+    <string name="confirmpassword">Confirm Password</string>
+    <string name="users">Users</string>
+    <string name="copy">Copy</string>
+    <string name="cname">Code Name</string>
+    <string name="codehere">Type Your code here</string>
+    <string name="addcode">Add Code</string>
+    <string name="codes">Codes</string>
+    <string name="update">Update Code</string>
+    <string name="deleteCode">Delete Code</string>
+    <string name="copyc">Copy Code</string>
+</resources>
