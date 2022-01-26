@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPersonalApp">
         <activity
+            android:name=".DisplayFoldersActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddSubActivity"
+            android:exported="true" />
+        <activity
             android:name=".CopyUpdateCode"
             android:exported="true" />
         <activity

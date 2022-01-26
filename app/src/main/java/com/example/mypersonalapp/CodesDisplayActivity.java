@@ -3,6 +3,7 @@ package com.example.mypersonalapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -18,12 +19,15 @@ public class CodesDisplayActivity extends AppCompatActivity {
     private ArrayList<Codes> userArrayList;
     private RCCodesAdapter recyclerViewAdapter;
     DBHelper db;
+    String subname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCodesDisplayBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         db = new DBHelper(this);
+        Intent intent = getIntent();
+        subname = intent.getStringExtra("sub_name_data");
     }
 
     @Override
@@ -34,13 +38,13 @@ public class CodesDisplayActivity extends AppCompatActivity {
 
         userArrayList = new ArrayList<>();
 
-        String username = db.getCurrentUser();
 
-        Cursor res = db.getCodes();
+        Cursor res = db.getCodes(subname);
         while (res.moveToNext()){
-            int a = res.getColumnIndex("name");
+            int a = res.getColumnIndex("codename");
             int b = res.getColumnIndex("code");
-            Codes pd = new Codes(res.getString(a), res.getString(b));
+            int c = res.getColumnIndex("subname");
+            Codes pd = new Codes(res.getString(a), res.getString(b), res.getString(c));
             userArrayList.add(pd);
         }
 

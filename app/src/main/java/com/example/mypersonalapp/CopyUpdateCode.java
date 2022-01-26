@@ -19,7 +19,7 @@ import com.example.mypersonalapp.databinding.ActivityCopyUpdateCodeBinding;
 
 public class CopyUpdateCode extends AppCompatActivity {
     ActivityCopyUpdateCodeBinding binding;
-    String code, codename;
+    String code, codename, subname;
     DBHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class CopyUpdateCode extends AppCompatActivity {
         Intent intent = getIntent();
         code = intent.getStringExtra("code_data");
         codename = intent.getStringExtra("codename_data");
+        subname = intent.getStringExtra("sub_name_data");
 
         binding.textView.setText(code);
         db = new DBHelper(this);
@@ -47,7 +48,7 @@ public class CopyUpdateCode extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()==R.id.updateCode){
-            boolean x = db.updateCodes(codename, code);
+            boolean x = db.updateCodes(codename, binding.textView.getText().toString(), subname);
             if (x){
                 code = binding.textView.getText().toString();
                 Toast.makeText(getApplicationContext(), "Changes saved successfully",
@@ -74,7 +75,7 @@ public class CopyUpdateCode extends AppCompatActivity {
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            boolean x = db.deleteSpecificCode(codename);
+                            boolean x = db.deleteSpecificCode(codename, subname);
                             if (!x) {
                                 Toast.makeText(getApplicationContext(), "Not able to delete the code",
                                         Toast.LENGTH_SHORT).show();

@@ -1,10 +1,10 @@
 package com.example.mypersonalapp;
 
 public class Codes {
-    public Codes(String codename, String code, String username) {
+    public Codes(String codename, String code, String subname) {
         this.codename = codename;
         this.code = code;
-        this.username = username;
+        this.subname = subname;
     }
 
     public Codes(String codename, String code){
@@ -14,7 +14,16 @@ public class Codes {
 
     private String codename;
     private String code;
-    private String username;
+
+    public String getSubname() {
+        return subname;
+    }
+
+    public void setSubname(String subname) {
+        this.subname = subname;
+    }
+
+    private String subname;
 
     public String getCodename() {
         return codename;
@@ -32,11 +41,4 @@ public class Codes {
         this.code = code;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

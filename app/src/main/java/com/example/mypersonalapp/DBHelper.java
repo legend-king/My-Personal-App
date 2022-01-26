@@ -17,7 +17,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
         DB.execSQL("create Table Passwords(username TEXT primary key not null, password TEXT not null, status Integer default 0)");
-        DB.execSQL("create Table Codes(name TEXT not null, code TEXT, username TEXT references Passwords(username))");
+        DB.execSQL("create Table Subs(subname TEXT not null, username TEXT references Passwords(username))");
+        DB.execSQL("create Table Codes(codename TEXT not null, code TEXT, subname references Subs(subname)," +
+                " username references Passwords(username))");
     }
 
     @Override
@@ -89,6 +91,42 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean deleteCodes(String username, String subname){
+        SQLiteDatabase DB=this.getWritableDatabase();
+        Cursor cursor = DB.rawQuery("Select * from Codes where username = ? and subname = ?",
+                new String[] {username, subname});
+        if (cursor.getCount()>0){
+            long result = DB.delete("Codes","username=? and subname=?",
+                    new String[]{username, subname});
+            return result != -1;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean deleteSubs(){
+        SQLiteDatabase DB = this.getWritableDatabase();
+        Cursor cursor = DB.rawQuery("Select * from Subs where username = ?", new String[] {getCurrentUser()});
+        if (cursor.getCount()>0){
+            long result = DB.delete("Subs", "username=?",new String[]{getCurrentUser()});
+            return result != -1;
+        }
+        return false;
+    }
+
+    public boolean deleteSubs(String subname){
+        SQLiteDatabase DB = this.getWritableDatabase();
+        Cursor cursor = DB.rawQuery("Select * from Subs where username = ? and subname = ?",
+                new String[] {getCurrentUser(), subname});
+        if (cursor.getCount()>0){
+            long result = DB.delete("Subs", "username=? and subname=?",
+                    new String[]{getCurrentUser(), subname});
+            return result != -1;
+        }
+        return false;
+    }
+
     public Cursor getPasswords(){
         SQLiteDatabase DB=this.getReadableDatabase();
         return DB.rawQuery("Select * from Passwords",null);
@@ -116,38 +154,41 @@ public class DBHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public boolean addCode(String codename, String code){
+    public boolean addCode(String codename, String code, String subname){
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name",codename);
+        contentValues.put("codename",codename);
         contentValues.put("code",code);
+        contentValues.put("subname",subname);
         contentValues.put("username", getCurrentUser());
         long result = DB.insert("Codes",null,contentValues);
         return result != -1;
     }
 
-    public boolean checkCodeNameExists(String codename){
+    public boolean checkCodeNameExists(String codename, String subname){
         SQLiteDatabase DB = this.getReadableDatabase();
-        Cursor cursor = DB.rawQuery("Select * from Codes where name = ?",
-                new String[] {codename});
+        Cursor cursor = DB.rawQuery("Select * from Codes where codename = ? and subname = ? and username = ?",
+                new String[] {codename, subname, getCurrentUser()});
         return cursor.getCount()>0;
     }
 
-    public Cursor getCodes(){
+    public Cursor getCodes(String subname){
         SQLiteDatabase DB = this.getReadableDatabase();
-        return DB.rawQuery("Select * from Codes where username = ?",
-                new String[] {getCurrentUser()});
+        return DB.rawQuery("Select * from Codes where username = ? and subname = ?",
+                new String[] {getCurrentUser(), subname});
     }
 
-    public boolean updateCodes(String codename, String code){
+    public boolean updateCodes(String codename, String code, String subname){
         SQLiteDatabase DB=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("code",code);
-        Cursor cursor = DB.rawQuery("Select * from Codes where username = ? and name = ?",
-                new String[] {getCurrentUser(), codename});
+        Cursor cursor = DB.rawQuery("Select * from Codes where username = ? and codename = ?" +
+                        " and subname = ?",
+                new String[] {getCurrentUser(), codename, subname});
         if (cursor.getCount()>0) {
-            long result = DB.update("Codes", contentValues, "username=? and name=?",
-                    new String[]{getCurrentUser(), codename});
+            long result = DB.update("Codes", contentValues, "username=? and name=?" +
+                            " and subname=?",
+                    new String[]{getCurrentUser(), codename, subname});
             return result != -1;
         }
         else{
@@ -155,18 +196,43 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deleteSpecificCode(String codename){
+    public boolean deleteSpecificCode(String codename, String subname){
         SQLiteDatabase DB=this.getWritableDatabase();
-        Cursor cursor = DB.rawQuery("Select * from Codes where username = ? and name = ?",
-                new String[] {getCurrentUser(), codename});
+        Cursor cursor = DB.rawQuery("Select * from Codes where username = ? and codename = ? and subname = ?",
+                new String[] {getCurrentUser(), codename, subname});
         if (cursor.getCount()>0){
-            long result = DB.delete("Codes","username=? and name=?",
-                    new String[]{getCurrentUser(), codename});
+            long result = DB.delete("Codes","username=? and codename=? and subname=?",
+                    new String[]{getCurrentUser(), codename, subname});
             return result != -1;
         }
         else{
             return false;
         }
+    }
+
+    public boolean checkSubNameExists(String subname){
+        SQLiteDatabase DB = this.getReadableDatabase();
+        Cursor cursor = DB.rawQuery("Select * from Subs where username = ? and subname = ?",
+                new String[] {getCurrentUser(),subname});
+        return cursor.getCount()>0;
+    }
+
+    public boolean insertSub(String sub){
+        SQLiteDatabase DB = this.getWritableDatabase();
+        String s = getCurrentUser();
+        if (s==null){
+            return false;
+        }
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("subname",sub);
+        contentValues.put("username",s);
+        long result = DB.insert("Subs", null, contentValues);
+        return result!=-1;
+    }
+
+    public Cursor getSubs(){
+        SQLiteDatabase DB = this.getReadableDatabase();
+        return DB.rawQuery("Select * from Subs where username = ?",new String[] {getCurrentUser()});
     }
 
 }

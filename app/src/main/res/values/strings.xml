@@ -18,4 +18,8 @@
     <string name="update">Update Code</string>
     <string name="deleteCode">Delete Code</string>
     <string name="copyc">Copy Code</string>
+    <string name="add">Add</string>
+    <string name="folder">Folder Name</string>
+    <string name="folders">Folders</string>
+    <string name="deleteFolder">Delete Folder</string>
 </resources>

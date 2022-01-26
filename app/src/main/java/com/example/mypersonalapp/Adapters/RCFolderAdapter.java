@@ -2,7 +2,6 @@ package com.example.mypersonalapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,32 +12,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypersonalapp.Codes;
 import com.example.mypersonalapp.CopyUpdateCode;
-import com.example.mypersonalapp.CopyUserActivity;
+import com.example.mypersonalapp.MainPage;
 import com.example.mypersonalapp.R;
-import com.example.mypersonalapp.Users;
+import com.example.mypersonalapp.Subs;
 
 import java.util.List;
 
-public class RCCodesAdapter extends RecyclerView.Adapter<RCCodesAdapter.ViewHolder>{
+public class RCFolderAdapter extends RecyclerView.Adapter<RCFolderAdapter.ViewHolder>{
     private Context context;
-    private List<Codes> pd;
+    private List<Subs> pd;
 
-    public RCCodesAdapter(Context context, List<Codes> pd) {
+    public RCFolderAdapter(Context context, List<Subs> pd) {
         this.context = context;
         this.pd = pd;
     }
 
     @NonNull
     @Override
-    public RCCodesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RCFolderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row,parent,false);
-        return new RCCodesAdapter.ViewHolder(view);
+        return new RCFolderAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RCCodesAdapter.ViewHolder holder, int position) {
-        Codes password = pd.get(position);
-        holder.nameOfPass.setText("Code Name : "+password.getCodename());
+    public void onBindViewHolder(@NonNull RCFolderAdapter.ViewHolder holder, int position) {
+        Subs password = pd.get(position);
+        holder.nameOfPass.setText("Folder Name : "+password.getSubname());
     }
 
     @Override
@@ -61,13 +60,10 @@ public class RCCodesAdapter extends RecyclerView.Adapter<RCCodesAdapter.ViewHold
         @Override
         public void onClick(View v) {
             int position = this.getAdapterPosition();
-            Codes password = pd.get(position);
-            String name = password.getCode();
+            Subs password = pd.get(position);
 
-            Intent intent = new Intent(context, CopyUpdateCode.class);
-            intent.putExtra("code_data",name);
+            Intent intent = new Intent(context, MainPage.class);
             intent.putExtra("sub_name_data", password.getSubname());
-            intent.putExtra("codename_data", password.getCodename());
             context.startActivity(intent);
         }
     }

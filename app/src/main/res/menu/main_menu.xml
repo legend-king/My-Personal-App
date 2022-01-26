@@ -5,8 +5,8 @@
         android:id="@+id/gotoUsers"
         android:title="@string/users" />
     <item
-        android:id="@+id/gotoCodes"
-        android:title="@string/codes" />
+        android:id="@+id/gotoFolders"
+        android:title="@string/folders" />
     <item
         android:id="@+id/gotoLogout"
         android:title="@string/logout" />
