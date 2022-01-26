@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context) {
@@ -26,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase DB, int oldVersion, int newVersion) {
         DB.execSQL("drop Table if exists Passwords");
         DB.execSQL("drop Table if exists Codes");
+        DB.execSQL("drop Table if exists Subs");
     }
 
     public boolean insertPasswords(String username, String pass){
