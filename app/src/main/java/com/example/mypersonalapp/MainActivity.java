@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                     if(db.checkPasswordCorrect(user, pass)){
-                        Intent intent = new Intent(MainActivity.this, AddSubActivity.class);
+                        Intent intent = new Intent(MainActivity.this, DisplayFoldersActivity.class);
                         startActivity(intent);
                         db.updatePasswords(user, 1);
                         finish();
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         String x = db.getCurrentUser();
         if (x!=null){
-            Intent intent = new Intent(MainActivity.this, AddSubActivity.class);
+            Intent intent = new Intent(MainActivity.this, DisplayFoldersActivity.class);
             startActivity(intent);
             finish();
         }

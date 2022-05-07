@@ -52,7 +52,7 @@ public class MainPage extends AppCompatActivity {
                     if (x){
                         Toast.makeText(getApplicationContext(), "Code Added Successfully",
                                 Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainPage.this, MainPage.class);
+                        Intent intent = new Intent(MainPage.this, CodesDisplayActivity.class);
                         intent.putExtra("sub_name_data", subname);
                         startActivity(intent);
                         finish();
@@ -66,48 +66,5 @@ public class MainPage extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_sub_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()==R.id.gotoCodes){
-            Intent intent = new Intent(MainPage.this, CodesDisplayActivity.class);
-            intent.putExtra("sub_name_data", subname);
-            startActivity(intent);
-        }
-        else if (item.getItemId()==R.id.deleteFolder){
-            String user = db.getCurrentUser();
-            new AlertDialog.Builder(MainPage.this)
-                    .setIcon(R.drawable.ic_launcher_foreground)
-                    .setTitle("Delete")
-                    .setMessage("Are you sure you want to delete this folder. " +
-                            "It will permanently delete the folder and " +
-                            "you won't be able to recover the folder back.")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            db.deleteCodes(user, subname);
-                            db.deleteSubs(subname);
-                            finish();
-                        }
-                    }).setNeutralButton("Help", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(MainPage.this, "Pressing the yes " +
-                            "button will delete the folder", Toast.LENGTH_SHORT).show();
-                }
-            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

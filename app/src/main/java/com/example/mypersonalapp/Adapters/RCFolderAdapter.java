@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypersonalapp.Codes;
+import com.example.mypersonalapp.CodesDisplayActivity;
 import com.example.mypersonalapp.CopyUpdateCode;
 import com.example.mypersonalapp.MainPage;
 import com.example.mypersonalapp.R;
@@ -62,7 +63,7 @@ public class RCFolderAdapter extends RecyclerView.Adapter<RCFolderAdapter.ViewHo
             int position = this.getAdapterPosition();
             Subs password = pd.get(position);
 
-            Intent intent = new Intent(context, MainPage.class);
+            Intent intent = new Intent(context, CodesDisplayActivity.class);
             intent.putExtra("sub_name_data", password.getSubname());
             context.startActivity(intent);
         }

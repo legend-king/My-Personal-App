@@ -42,8 +42,8 @@ public class AddSubActivity extends AppCompatActivity {
                     if (x){
                         Toast.makeText(getApplicationContext(), "Folder created successfully",
                                 Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddSubActivity.this, AddSubActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(AddSubActivity.this, AddSubActivity.class);
+//                        startActivity(intent);
                         finish();
                     }
                     else{
@@ -55,62 +55,5 @@ public class AddSubActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()==R.id.gotoUsers){
-            Intent intent = new Intent(AddSubActivity.this, UserDisplayActivity.class);
-            startActivity(intent);
-        }
-        else if (item.getItemId()==R.id.gotoLogout){
-            String user = db.getCurrentUser();
-            db.updatePasswords(user, 0);
-            Intent intent = new Intent(AddSubActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        else if (item.getItemId()==R.id.gotoFolders){
-            Intent intent = new Intent(AddSubActivity.this, DisplayFoldersActivity.class);
-            startActivity(intent);
-        }
-        else if (item.getItemId()==R.id.deleteAccount){
-            String user = db.getCurrentUser();
-            new AlertDialog.Builder(AddSubActivity.this)
-                    .setIcon(R.drawable.ic_launcher_foreground)
-                    .setTitle("Delete")
-                    .setMessage("Are you sure you want to delete your account. " +
-                            "It will permanently delete the account, all the folders and codes will" +
-                            " be deleted and you won't be able to recover the account back.")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            db.deletePasswords(user);
-                            db.deleteCodes(user);
-                            db.deleteSubs();
-                            Intent intent = new Intent(AddSubActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }).setNeutralButton("Help", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(AddSubActivity.this, "Pressing the yes " +
-                            "button will delete the account", Toast.LENGTH_SHORT).show();
-                }
-            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).show();
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

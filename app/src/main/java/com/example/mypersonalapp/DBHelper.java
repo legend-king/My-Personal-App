@@ -185,7 +185,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         " and subname = ?",
                 new String[] {getCurrentUser(), codename, subname});
         if (cursor.getCount()>0) {
-            long result = DB.update("Codes", contentValues, "username=? and name=?" +
+            long result = DB.update("Codes", contentValues, "username=? and codename=?" +
                             " and subname=?",
                     new String[]{getCurrentUser(), codename, subname});
             return result != -1;
